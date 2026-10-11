@@ -174,7 +174,7 @@ test.describe('uncorrect POST /api/products', () => {
 
     console.log('response status: ', statusCode, 'response body: ', responseBody);
 
-    expect(statusCode).toBe(StatusCodes.BAD_REQUEST); // Баг
+    expect(statusCode).toBe(StatusCodes.BAD_REQUEST); // Баг????
   });
 
   test('post request with string in quantity', async ({ request }) => {
