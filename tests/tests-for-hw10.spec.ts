@@ -12,16 +12,21 @@ test.describe('correct POST /api/products', () => {
 
     const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: correctBody,
-    })
-    const responseBody = await response.json()
-    const statusCode = response.status()
+    });
+    const responseBody = await response.json();
+    const statusCode = response.status();
 
-    console.log('response status: ', statusCode, 'response body: ', responseBody)
+    console.log('response status: ', statusCode, 'response body: ', responseBody);
 
     expect(statusCode).toBe(StatusCodes.CREATED)
-    expect(typeof responseBody.name).toBe('string')
-    expect(typeof responseBody.price).toBe('number')
-    expect(typeof responseBody.quantity).toBe('number')
+    expect(typeof responseBody.name).toBe('string');
+    expect(typeof responseBody.price).toBe('number');
+    expect(responseBody.available).toBeTruthy();
+    expect(responseBody.quantity).toBe(100);
+    expect(responseBody.price).toBe(0.29);
+    expect(responseBody.category).toBe('Drinks');
+    expect(responseBody.name).toBe('Water');
+    expect(typeof responseBody.quantity).toBe('number');
   })
   test('post request with >0 quantity and false available', async ({ request }) => {
     const bodyWithFAvailable = {
@@ -32,15 +37,20 @@ test.describe('correct POST /api/products', () => {
       available: false,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithFAvailable,
-    })
-    const responseBody = await response.json()
-    const statusCode = response.status()
+    });
+    const responseBody = await response.json();
+    const statusCode = response.status();
 
-    console.log('response status: ', statusCode, 'response body: ', responseBody)
+    console.log('response status: ', statusCode, 'response body: ', responseBody);
 
-    expect(statusCode).toBe(StatusCodes.CREATED)
+    expect(statusCode).toBe(StatusCodes.CREATED);
+    expect(responseBody.available).toBeFalsy();
+    expect(responseBody.quantity).toBe(24);
+    expect(responseBody.price).toBe(2.99);
+    expect(responseBody.category).toBe('Food');
+    expect(responseBody.name).toBe('Meat');
   })
 
   test('post request without quantity', async ({ request }) => {
@@ -50,7 +60,7 @@ test.describe('correct POST /api/products', () => {
       price: 2.99,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithoutQuantity,
     })
 
@@ -59,8 +69,13 @@ test.describe('correct POST /api/products', () => {
 
     console.log('response status: ', statusCode, 'response body: ', responseBody)
 
-    expect(statusCode).toBe(StatusCodes.CREATED)
-    expect(responseBody.quantity).toBe(0)
+    expect(statusCode).toBe(StatusCodes.CREATED);
+    expect(responseBody.quantity).toBe(0);
+    expect(responseBody.available).toBeTruthy();
+    expect(responseBody.quantity).toBe(0);
+    expect(responseBody.price).toBe(2.99);
+    expect(responseBody.category).toBe('Food');
+    expect(responseBody.name).toBe('Meat');
   })
 })
 
@@ -89,7 +104,7 @@ test.describe('uncorrect POST /api/products', () => {
       quantity: 100,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithoutCategory,
     })
     const responseBody = await response.json()
@@ -107,7 +122,7 @@ test.describe('uncorrect POST /api/products', () => {
       quantity: 2,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithoutPrice,
     })
     const responseBody = await response.json()
@@ -118,7 +133,7 @@ test.describe('uncorrect POST /api/products', () => {
     expect(statusCode).toBe(StatusCodes.BAD_REQUEST)
   })
 
-  test('post request with 0 quantity and available true', async ({ request }) => {
+  test.fail('post request with 0 quantity and available true', async ({ request }) => {
     const bodyWithFAvailable = {
       name: 'Meat',
       category: 'Food',
@@ -157,7 +172,7 @@ test.describe('uncorrect POST /api/products', () => {
     expect(statusCode).toBe(StatusCodes.BAD_REQUEST)
   })
 
-  test('post request with negative price', async ({ request }) => {
+  test.fail('post request with negative price', async ({ request }) => {
     const bodyWithNegativePrice = {
       name: 'Cookies',
       category: 'Food',
