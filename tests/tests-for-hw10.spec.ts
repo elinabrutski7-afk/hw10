@@ -12,21 +12,21 @@ test.describe('correct POST /api/products', () => {
 
     const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: correctBody,
-    });
-    const responseBody = await response.json();
-    const statusCode = response.status();
+    })
+    const responseBody = await response.json()
+    const statusCode = response.status()
 
-    console.log('response status: ', statusCode, 'response body: ', responseBody);
+    console.log('response status: ', statusCode, 'response body: ', responseBody)
 
     expect(statusCode).toBe(StatusCodes.CREATED)
-    expect(typeof responseBody.name).toBe('string');
-    expect(typeof responseBody.price).toBe('number');
-    expect(responseBody.available).toBeTruthy();
-    expect(responseBody.quantity).toBe(100);
-    expect(responseBody.price).toBe(0.29);
-    expect(responseBody.category).toBe('Drinks');
-    expect(responseBody.name).toBe('Water');
-    expect(typeof responseBody.quantity).toBe('number');
+    expect(typeof responseBody.name).toBe('string')
+    expect(typeof responseBody.price).toBe('number')
+    expect(responseBody.available).toBeTruthy()
+    expect(responseBody.quantity).toBe(100)
+    expect(responseBody.price).toBe(0.29)
+    expect(responseBody.category).toBe('Drinks')
+    expect(responseBody.name).toBe('Water')
+    expect(typeof responseBody.quantity).toBe('number')
   })
   test('post request with >0 quantity and false available', async ({ request }) => {
     const bodyWithFAvailable = {
@@ -39,18 +39,18 @@ test.describe('correct POST /api/products', () => {
 
     const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithFAvailable,
-    });
-    const responseBody = await response.json();
-    const statusCode = response.status();
+    })
+    const responseBody = await response.json()
+    const statusCode = response.status()
 
-    console.log('response status: ', statusCode, 'response body: ', responseBody);
+    console.log('response status: ', statusCode, 'response body: ', responseBody)
 
-    expect(statusCode).toBe(StatusCodes.CREATED);
-    expect(responseBody.available).toBeFalsy();
-    expect(responseBody.quantity).toBe(24);
-    expect(responseBody.price).toBe(2.99);
-    expect(responseBody.category).toBe('Food');
-    expect(responseBody.name).toBe('Meat');
+    expect(statusCode).toBe(StatusCodes.CREATED)
+    expect(responseBody.available).toBeFalsy()
+    expect(responseBody.quantity).toBe(24)
+    expect(responseBody.price).toBe(2.99)
+    expect(responseBody.category).toBe('Food')
+    expect(responseBody.name).toBe('Meat')
   })
 
   test('post request without quantity', async ({ request }) => {
@@ -69,13 +69,13 @@ test.describe('correct POST /api/products', () => {
 
     console.log('response status: ', statusCode, 'response body: ', responseBody)
 
-    expect(statusCode).toBe(StatusCodes.CREATED);
-    expect(responseBody.quantity).toBe(0);
-    expect(responseBody.available).toBeTruthy();
-    expect(responseBody.quantity).toBe(0);
-    expect(responseBody.price).toBe(2.99);
-    expect(responseBody.category).toBe('Food');
-    expect(responseBody.name).toBe('Meat');
+    expect(statusCode).toBe(StatusCodes.CREATED)
+    expect(responseBody.quantity).toBe(0)
+    expect(responseBody.available).toBeTruthy()
+    expect(responseBody.quantity).toBe(0)
+    expect(responseBody.price).toBe(2.99)
+    expect(responseBody.category).toBe('Food')
+    expect(responseBody.name).toBe('Meat')
   })
 })
 
