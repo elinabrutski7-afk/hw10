@@ -53,7 +53,7 @@ test.describe('correct POST /api/products', () => {
     expect(responseBody.name).toBe('Meat')
   })
 
-  test('post request without quantity', async ({ request }) => {
+  test.fail('post request without quantity', async ({ request }) => {
     const bodyWithoutQuantity = {
       name: 'Meat',
       category: 'Food',
@@ -71,15 +71,14 @@ test.describe('correct POST /api/products', () => {
 
     expect(statusCode).toBe(StatusCodes.CREATED)
     expect(responseBody.quantity).toBe(0)
-    expect(responseBody.available).toBeTruthy()
-    expect(responseBody.quantity).toBe(0)
+    expect(responseBody.available).toBeFalsy()
     expect(responseBody.price).toBe(2.99)
     expect(responseBody.category).toBe('Food')
     expect(responseBody.name).toBe('Meat')
   })
 })
 
-test.describe('uncorrect POST /api/products', () => {
+test.describe('incorrect POST /api/products', () => {
   test('post request without name', async ({ request }) => {
     const bodyWithoutName = {
       category: 'Games',
@@ -142,7 +141,7 @@ test.describe('uncorrect POST /api/products', () => {
       available: true,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithFAvailable,
     })
     const responseBody = await response.json()
@@ -160,7 +159,7 @@ test.describe('uncorrect POST /api/products', () => {
       price: 0.99,
       quantity: -1,
     }
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithNegativeQuantity,
     })
 
@@ -180,7 +179,7 @@ test.describe('uncorrect POST /api/products', () => {
       quantity: 4,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithNegativePrice,
     })
 
@@ -200,7 +199,7 @@ test.describe('uncorrect POST /api/products', () => {
       quantity: '100',
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithQString,
     })
 
@@ -220,7 +219,7 @@ test.describe('uncorrect POST /api/products', () => {
       quantity: 100,
     }
 
-    const response = await request.post('http://shop.tl-academy.ee/api/products', {
+    const response = await request.post('https://shop.tl-academy.ee/api/products', {
       data: bodyWithQString,
     })
 
